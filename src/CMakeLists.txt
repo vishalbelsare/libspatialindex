@@ -27,6 +27,7 @@ set(SIDX_CAPI_DIR "${PROJECT_SOURCE_DIR}/src/capi")
 # base
 #
 set(SIDX_BASE_HPP
+  "${SIDX_HEADERS_DIR}/Ball.h"
   "${SIDX_HEADERS_DIR}/LineSegment.h"
   "${SIDX_HEADERS_DIR}/MovingPoint.h"
   "${SIDX_HEADERS_DIR}/MVRTree.h"
@@ -74,6 +75,7 @@ set(SIDX_CAPI_CPP
 list(APPEND SIDX_CPP ${SIDX_CAPI_CPP})
 
 set(SIDX_SPATIALINDEX_CPP
+  "${SIDX_SRC_DIR}/spatialindex/Ball.cc"
   "${SIDX_SRC_DIR}/spatialindex/LineSegment.cc"
   "${SIDX_SRC_DIR}/spatialindex/MovingPoint.cc"
   "${SIDX_SRC_DIR}/spatialindex/MovingRegion.cc"
@@ -179,7 +181,6 @@ set(SIDX_SOURCES
   ${SIDX_CPP})
 
 add_library(spatialindex ${SIDX_SOURCES})
-
 add_library(spatialindex_c ${SIDX_CAPI_CPP})
 
 target_link_libraries(spatialindex_c spatialindex)
@@ -204,9 +205,10 @@ if(MSVC)
   target_compile_options(spatialindex PRIVATE /wd4068)
   target_compile_options(spatialindex_c PRIVATE /wd4068)
 
-  target_compile_definitions(spatialindex_c PRIVATE -DSIDX_DLL_EXPORT=1)
-  target_compile_definitions(spatialindex PRIVATE -DSIDX_DLL_EXPORT=1)
-  if(NOT WITH_STATIC_SIDX)
+  if (BUILD_SHARED_LIBS)
+    target_compile_definitions(spatialindex PRIVATE -DSIDX_DLL_EXPORT=1)
+    target_compile_definitions(spatialindex_c PRIVATE -DSIDX_DLL_EXPORT=1)
+  else()
     target_compile_definitions(spatialindex PRIVATE -DSIDX_DLL_IMPORT=1)
     target_compile_definitions(spatialindex_c PRIVATE -DSIDX_DLL_IMPORT=1)
   endif()
