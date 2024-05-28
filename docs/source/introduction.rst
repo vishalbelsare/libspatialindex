@@ -7,7 +7,7 @@
 :Date: 05/28/2024
 
 
-The entire website is available as a single PDF at https://libspatialindex.org/libspatialindex.pdf
+The entire website is available as a single PDF at http://libspatialindex.org/_/downloads/en/latest/pdf/
 
 ------------------------------------------------------------------------------
 Introduction
